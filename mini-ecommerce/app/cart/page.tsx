@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCart } from '@/app/components/CartProvider';
+import { useCart } from '../components/CartProvider';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 
 export default function CartPage() {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/app/components/AuthProvider';
+import { useAuth } from '../components/AuthProvider';
 import { mockApi } from '@/lib/api';
 import { Order } from '@/lib/types';
 import { Package, CheckCircle, Truck, Clock, Eye } from 'lucide-react';

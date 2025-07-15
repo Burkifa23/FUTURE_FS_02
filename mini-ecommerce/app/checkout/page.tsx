@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/components/AuthProvider';
-import { useCart } from '@/app/components/CartProvider';
+import { useAuth } from '../components/AuthProvider';
+import { useCart } from '../components/CartProvider';
 import { mockApi } from '@/lib/api';
 import { CreditCard, Lock, Loader2 } from 'lucide-react';
 

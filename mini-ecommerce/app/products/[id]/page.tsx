@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Product } from '@/lib/types';
 import { api } from '@/lib/api';
-import { useCart } from '@/app/components/CartProvider';
+import { useCart } from '../../components/CartProvider';
 import { Star, ShoppingCart, ArrowLeft, Loader2, Plus, Minus } from 'lucide-react';
 
 export default function ProductDetailPage() {

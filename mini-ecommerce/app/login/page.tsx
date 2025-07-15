@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/components/AuthProvider';
+import { useAuth } from '../components/AuthProvider';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
