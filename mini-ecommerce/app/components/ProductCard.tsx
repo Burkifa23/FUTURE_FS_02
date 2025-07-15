@@ -1,7 +1,9 @@
+
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Product } from '@/lib/types';
 import { useCart } from './CartProvider';
 import { Star, ShoppingCart } from 'lucide-react';
@@ -12,11 +14,18 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
     const { addItem } = useCart();
+    const [error, setError] = useState<string | null>(null);
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        addItem(product);
+        try {
+            addItem(product);
+            setError(null);
+        } catch (err) {
+            setError('Failed to add item to cart. Please try again.');
+            console.error('Add to cart error:', err);
+        }
     };
 
     return (
@@ -54,17 +63,19 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <span className="text-2xl font-bold text-gray-900">
                             ${product.price.toFixed(2)}
                         </span>
-
-                        <button
-                            onClick={handleAddToCart}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
-                        >
-                            <ShoppingCart size={16} />
-                            <span>Add to Cart</span>
-                        </button>
                     </div>
                 </div>
             </Link>
+            <div className="p-4 pt-0">
+                <button
+                    onClick={handleAddToCart}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2 w-full mt-2"
+                >
+                    <ShoppingCart size={16} />
+                    <span>Add to Cart</span>
+                </button>
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            </div>
         </div>
     );
 }

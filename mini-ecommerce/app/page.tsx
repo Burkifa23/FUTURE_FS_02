@@ -14,6 +14,7 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [sortBy, setSortBy] = useState('name');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -29,6 +30,7 @@ export default function HomePage() {
         setCategories(categoriesData);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setError('Failed to load products. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -75,6 +77,14 @@ export default function HomePage() {
       <div className="flex items-center justify-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
         <span className="ml-2 text-gray-600">Loading products...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <span className="text-red-600 text-lg font-semibold">{error}</span>
       </div>
     );
   }

@@ -7,22 +7,32 @@ const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([]);
-
-    // Load cart from localStorage on mount
+    // SSR-safe localStorage access
     useEffect(() => {
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
+        if (typeof window !== 'undefined' && window.localStorage) {
             try {
-                setItems(JSON.parse(savedCart));
+                const savedCart = localStorage.getItem('cart');
+                if (savedCart) {
+                    setItems(JSON.parse(savedCart));
+                }
             } catch (error) {
                 console.error('Error loading cart from localStorage:', error);
             }
         }
     }, []);
 
-    // Save cart to localStorage whenever items change
+    // Debounced save to localStorage
     useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(items));
+        if (typeof window !== 'undefined' && window.localStorage) {
+            const handler = setTimeout(() => {
+                try {
+                    localStorage.setItem('cart', JSON.stringify(items));
+                } catch (error) {
+                    console.error('Error saving cart to localStorage:', error);
+                }
+            }, 400); // 400ms debounce
+            return () => clearTimeout(handler);
+        }
     }, [items]);
 
     const addItem = (product: Product, quantity: number = 1) => {
